@@ -1,70 +1,78 @@
 <!DOCTYPE html>
-<html lang="pt-BR" class="light">
+<html <?php language_attributes(); ?> class="dark">
 <head>
-<meta charset="<?php bloginfo( 'charset' ); ?>"/>
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<?php wp_head(); ?>
+    <meta charset="<?php bloginfo('charset'); ?>">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+      <meta name="google-site-verification" content="eTrlbtdq7bsM5xHgk9osh2-i7MqqCQRutgQ4kyutYys" />
+    <?php wp_head(); ?>
 </head>
-<body <?php body_class(); ?>>
+
+<body <?php body_class('bg-bg text-text-primary font-sans antialiased scroll-smooth transition-colors duration-300'); ?>>
 <?php wp_body_open(); ?>
 
-<header class="sticky top-0 z-50">
-	<div class="max-w-7xl mx-auto px-4 sm:px-6 py-3 flex items-center justify-between gap-4">
-		<a href="<?php echo esc_url( home_url( '/' ) ); ?>" class="flex items-center gap-2 font-display font-black text-2xl tracking-tight" style="color:#c8392b;text-decoration:none;">
-			<?php if ( has_custom_logo() ) : ?>
-				<?php the_custom_logo(); ?>
-			<?php else : ?>
-				<svg width="22" height="22" viewBox="0 0 22 22" fill="none"><rect width="22" height="22" rx="4" fill="#c8392b"/><path d="M5 5h5l3 6-3 6H5l3-6-3-6zm7 0h5l-3 6 3 6h-5l-3-6 3-6z" fill="#fff"/></svg>
-			<?php endif; ?>
-			<?php bloginfo( 'name' ); ?>
-		</a>
+    <!-- HEADER -->
+    <header class="sticky top-0 z-50 header-backdrop backdrop-blur-md border-b border-custom transition-colors duration-300">
+        <div class="max-w-6xl mx-auto px-4 py-4 flex justify-between items-center relative">
+            
+            <!-- Logo -->
+            <a href="<?php echo esc_url(home_url('/')); ?>" class="text-2xl font-bold tracking-wider text-gradient z-20">
+                <?php bloginfo('name'); ?>
+            </a>
 
-		<nav class="hidden md:flex items-center gap-6" aria-label="Menu principal">
-			<?php
-			if ( has_nav_menu( 'primary' ) ) {
-				wp_nav_menu( array(
-					'theme_location' => 'primary',
-					'container'      => false,
-					'items_wrap'     => '%3$s',
-					'walker'         => new Aqgoes_Walker_Nav_Menu( false ),
-				) );
-			} else {
-				aqgoes_menu_fallback();
-			}
-			?>
-		</nav>
+            <!-- Ações Mobile (Dark Mode + Hambúrguer) -->
+            <div class="flex items-center gap-2 z-20 md:hidden">
+                <button class="theme-toggle p-2 rounded-lg border border-custom text-text-primary hover:bg-bg-card transition-colors" aria-label="Alternar Tema">
+                    <span class="icon-moon text-lg">🌙</span>
+                    <span class="icon-sun text-lg hidden">☀️</span>
+                </button>
 
-		<div class="flex items-center gap-3">
-			<button class="theme-toggle" id="theme-toggle" aria-label="Alternar tema"><span class="knob"></span></button>
+                <button id="menu-btn" aria-label="Abrir Menu" aria-expanded="false" class="text-text-primary hover:text-white focus:outline-none p-2">
+                    <svg id="icon-open" class="w-7 h-7 block" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                    </svg>
+                    <svg id="icon-close" class="w-7 h-7 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                    </svg>
+                </button>
+            </div>
 
-			<a href="#" class="hidden md:inline-flex items-center px-4 py-2 rounded-md text-sm font-semibold text-white" style="background:#c8392b;">Assine</a>
+            <!-- Navegação Desktop & Mobile Dropdown -->
+            <nav id="menu" class="hidden absolute top-full left-0 w-full menu-backdrop backdrop-blur-lg border-b border-custom p-6 flex-col space-y-4 md:static md:flex md:flex-row md:items-center md:space-y-0 md:space-x-8 md:w-auto md:bg-transparent md:border-none md:p-0 transition-all duration-300 z-10">
+                <?php
+                if (has_nav_menu('primary')) {
+                    wp_nav_menu(array(
+                        'theme_location' => 'primary',
+                        'container'      => false,
+                        'menu_class'     => 'flex flex-col md:flex-row md:items-center md:space-x-8 space-y-4 md:space-y-0',
+                        'fallback_cb'    => false
+                    ));
+                } else {
+                    // Menu Padrão Fallback com links para as âncoras da home e blog
+                ?>
+                    <a href="<?php echo is_front_page() ? '#sobre' : esc_url(home_url('/#sobre')); ?>" class="nav-link hover:text-gradient transition-colors block py-2 md:py-0 font-medium">Sobre</a>
+                    <a href="<?php echo is_front_page() ? '#trajetoria' : esc_url(home_url('/#trajetoria')); ?>" class="nav-link hover:text-gradient transition-colors block py-2 md:py-0 font-medium">Trajetória</a>
+                    <a href="<?php echo is_front_page() ? '#tecnologias' : esc_url(home_url('/#tecnologias')); ?>" class="nav-link hover:text-gradient transition-colors block py-2 md:py-0 font-medium">Tecnologias</a>
+                    <a href="<?php echo esc_url('https://aqgoes.com/blog/'); ?>" class="nav-link hover:text-gradient transition-colors block py-2 md:py-0 font-medium">Artigos</a>
+                <?php } ?>
 
-			<button id="menu-btn" class="md:hidden flex flex-col justify-center items-center w-9 h-9 rounded-md gap-1.5" style="background:var(--bg);border:1px solid var(--border);" aria-label="Abrir menu" aria-expanded="false">
-				<span class="ham-bar"></span>
-				<span class="ham-bar"></span>
-				<span class="ham-bar"></span>
-			</button>
-		</div>
-	</div>
+                <div class="pt-4 md:pt-0 border-t border-custom md:border-none md:hidden">
+                    <a href="https://wa.me/5561999999999" target="_blank" rel="noopener noreferrer" class="block text-center bg-grad-primary text-white font-semibold px-4 py-2 rounded-lg hover:opacity-90 transition-opacity">
+                        Fale Comigo
+                    </a>
+                </div>
+            </nav>
 
-	<div id="mobile-menu">
-		<nav class="max-w-7xl mx-auto px-4 py-4 flex flex-col gap-1" aria-label="Menu mobile">
-			<?php
-			if ( has_nav_menu( 'primary' ) ) {
-				wp_nav_menu( array(
-					'theme_location' => 'primary',
-					'container'      => false,
-					'items_wrap'     => '%3$s',
-					'walker'         => new Aqgoes_Walker_Nav_Menu( true ),
-				) );
-			} else {
-				aqgoes_menu_fallback();
-			}
-			?>
-			<div style="border-top:1px solid var(--border);margin:.5rem 0;"></div>
-			<a href="#" class="inline-flex justify-center items-center px-4 py-2.5 rounded-md text-sm font-bold text-white" style="background:#c8392b;">Assine grátis</a>
-		</nav>
-	</div>
-</header>
+            <!-- Ações Desktop (Dark Mode + Botão WhatsApp) -->
+            <div class="hidden md:flex items-center space-x-4">
+                <button class="theme-toggle p-2 rounded-lg border border-custom text-text-primary hover:bg-bg-card transition-colors cursor-pointer" aria-label="Alternar Tema">
+                    <span class="icon-moon text-lg">🌙</span>
+                    <span class="icon-sun text-lg hidden">☀️</span>
+                </button>
+                <a href="https://wa.me/5561999999999" target="_blank" rel="noopener noreferrer" class="bg-grad-primary text-white font-semibold px-4 py-2 rounded-lg hover:opacity-90 transition-opacity">
+                    Fale Comigo
+                </a>
+            </div>
 
-<main>
+        </div>
+    </header>

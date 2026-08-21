@@ -1,2 +1,2 @@
-#Tema do site aqgoes.com portfolio
-Tema personalizado para o portfolio
+# tema-wp-blog-aqgoes
+Tema wordpes para o blog aqgoes.com
