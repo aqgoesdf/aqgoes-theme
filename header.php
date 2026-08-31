@@ -57,7 +57,7 @@
                 <?php } ?>
 
                 <div class="pt-4 md:pt-0 border-t border-custom md:border-none md:hidden">
-                    <a href="https://wa.me/5561999999999" target="_blank" rel="noopener noreferrer" class="block text-center bg-grad-primary text-white font-semibold px-4 py-2 rounded-lg hover:opacity-90 transition-opacity">
+                    <a href="https://wa.me/+5561991768703?text=Obrigado!%20Aguarde%20um%20instante%20retornaremos%20a%20mensagem." target="_blank" rel="noopener noreferrer" class="block text-center bg-grad-primary text-white font-semibold px-4 py-2 rounded-lg hover:opacity-90 transition-opacity">
                         Fale Comigo
                     </a>
                 </div>
@@ -69,7 +69,7 @@
                     <span class="icon-moon text-lg">🌙</span>
                     <span class="icon-sun text-lg hidden">☀️</span>
                 </button>
-                <a href="https://wa.me/5561999999999" target="_blank" rel="noopener noreferrer" class="bg-grad-primary text-white font-semibold px-4 py-2 rounded-lg hover:opacity-90 transition-opacity">
+                <a href="https://wa.me/+5561991768703?text=Obrigado!%20Aguarde%20um%20instante%20retornaremos%20a%20mensagem." target="_blank" rel="noopener noreferrer" class="bg-grad-primary text-white font-semibold px-4 py-2 rounded-lg hover:opacity-90 transition-opacity">
                     Fale Comigo
                 </a>
             </div>
