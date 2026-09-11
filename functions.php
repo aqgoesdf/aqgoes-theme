@@ -1,53 +1,41 @@
 <?php
-if (!defined('ABSPATH')) {
-    exit; // Saída direta se acessado sem o WordPress
-}
+/**
+ * Configurações e Funções do Tema aqgoes Theme
+ */
 
-function aqgoes_theme_setup() {
-    // Suporte a título dinâmico da página (<title>)
-    add_theme_support('title-tag');
+if ( ! function_exists( 'aqgoes_setup' ) ) :
+    function aqgoes_setup() {
+        // Suporte a título dinâmico na aba do navegador
+        add_theme_support( 'title-tag' );
 
-    // Suporte a Imagens Destacadas (Thumbnails) nos posts/páginas
-    add_theme_support('post-thumbnails');
+        // Suporte a Imagens Destacadas (Thumbnails)
+        add_theme_support( 'post-thumbnails' );
 
-    // Suporte a logotipo personalizado
-    add_theme_support('custom-logo', array(
-        'height'      => 100,
-        'width'       => 400,
-        'flex-height' => true,
-        'flex-width'  => true,
-    ));
-
-    // Registro dos Menus do WordPress
-    register_nav_menus(array(
-        'primary' => __('Menu Principal', 'aqgoes'),
-        'footer'  => __('Menu Rodapé', 'aqgoes'),
-    ));
-}
-add_action('after_setup_theme', 'aqgoes_theme_setup');
+        // Registrar Menu Principal
+        register_nav_menus( array(
+            'primary_menu' => __( 'Menu Principal', 'aqgoes-theme' ),
+        ) );
+    }
+endif;
+add_action( 'after_setup_theme', 'aqgoes_setup' );
 
 /**
- * Enfileiramento de CSS e JavaScript
+ * Enfileiramento de Scripts e Estilos (Enqueue)
  */
-function aqgoes_enqueue_assets() {
-    $theme_version = wp_get_theme()->get('Version');
+function aqgoes_enqueue_scripts() {
+    // 1. Tailwind CDN (Carregado primeiro no head)
+    wp_enqueue_script( 'tailwind-cdn', 'https://cdn.tailwindcss.com', array(), null, false );
 
-    // 1. Tailwind CSS via CDN (Carregado primeiro)
-    wp_enqueue_script('tailwind-cdn', 'https://cdn.tailwindcss.com', array(), null, false);
+    // 2. Tailwind Config local
+    wp_enqueue_script( 'tailwind-config', get_template_directory_uri() . '/assets/js/tailwind-config.js', array('tailwind-cdn'), '1.0.0', false );
 
-    // 2. Configuração customizada do Tailwind
-    wp_enqueue_script('tailwind-config', get_template_directory_uri() . '/assets/js/tailwind-config.js', array('tailwind-cdn'), $theme_version, false);
+    // 3. Estilo principal do tema (Metadados do WP)
+    wp_enqueue_style( 'theme-style', get_stylesheet_uri(), array(), '1.0.0' );
 
-    // 3. Estilo Principal do Tema (main.css)
-    wp_enqueue_style('aqgoes-main-style', get_template_directory_uri() . '/assets/css/main.css', array(), $theme_version);
+    // 4. Seus estilos customizados em CSS
+    wp_enqueue_style( 'aqgoes-custom-style', get_template_directory_uri() . '/assets/css/style.css', array(), '1.0.0' );
 
-    // 4. Style.css padrão do WordPress (exigido)
-    wp_enqueue_style('aqgoes-theme-style', get_stylesheet_uri(), array('aqgoes-main-style'), $theme_version);
-
-    // 5. JavaScript do Dark Mode
-    wp_enqueue_script('aqgoes-theme-toggle', get_template_directory_uri() . '/assets/js/theme.js', array(), $theme_version, true);
-
-    // 6. JavaScript Principal (Menu Hambúrguer / Interações)
-    wp_enqueue_script('aqgoes-main-js', get_template_directory_uri() . '/assets/js/main.js', array(), $theme_version, true);
+    // 5. Seu JavaScript Principal (no rodapé)
+    wp_enqueue_script( 'aqgoes-main-js', get_template_directory_uri() . '/assets/js/main.js', array(), '1.0.0', true );
 }
-add_action('wp_enqueue_scripts', 'aqgoes_enqueue_assets');
+add_action( 'wp_enqueue_scripts', 'aqgoes_enqueue_scripts' );

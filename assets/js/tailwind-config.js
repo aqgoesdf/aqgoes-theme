@@ -1,5 +1,5 @@
 tailwind.config = {
-    darkMode: 'class', // Ativa o modo escuro baseado na classe 'dark' ou 'light'
+    darkMode: 'class', // Ativa o modo escuro baseado na classe 'dark' no <html>
     theme: {
         extend: {
             colors: {
